@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeLeaf.org">
+<head th:replace="fragment :: html_head">
+</head>
+<body>
+	<div th:replace="fragment :: html_navbar"></div>
+	<div class="container">
+			<div class = "row">
+			
+				<div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+					<h1 class="text-center">[[${titlePage}]]</h1>
+					<div class="card-body">
+					    <form th:action="@{/products/save}" th:object= "${product}" method="POST" enctype="multipart/form-data">
+					    	
+					    	<input type = "hidden" th:value="${product.id}" th:field="*{id}"/>
+					    	
+					    	<div class="form-group">
+					    		<label>Name</label>
+					    		<input type = "text" name = "name" required
+					    				th:field = "*{name}"
+					    				class = "form-control"
+					    				placeholder = "Enter name"/>
+					    	</div>
+					    	<div class="form-group">
+					    		<label>Price</label>
+					    		<input type = "number" name = "price" required 
+					    				th:field = "*{price}"
+					    				class = "form-control"
+					    				placeholder = "0,0"/>
+					    	</div>
+					    	<div class="form-group">
+					    		<label>Category</label>
+					    		<div>
+					    			<select th:field="*{category}" class = "form-control" required >
+					    				<th:block th:each="cat : ${listCategories}">
+					    					<option th:text="${cat.name}"
+					    							th:value = "${cat.id}">
+					    					</option>
+					    				</th:block>
+					    			</select>
+					    		
+					    		</div>
+					    	</div>
+					    
+					    
+					    
+					    <div class="form-group">
+					    		<label>Description</label>
+					    		<div>
+					    			<textarea class="form-control mb-4" id="desc" name="description"
+					    						th:field = "*{description}"
+											placeholder="Product Description">Product Description
+                                 	</textarea>
+					    		
+					    		</div>
+					    	</div>
+					    	
+					    <div class="form-group">
+					    		<label class="file-label" for="fileImage">Add an Image</label>
+					    		 <div class="mb-4">
+					    		 	 <input class="file-input" type="file" id="fileImage" name="fileImage">
+								</div> 
+				    	</div>
+				    	<div class="form-group">
+					    		<img src="#" id="thumbnail" height="100px" width="100px"
+					    		th:src="@{${'/image/' + product.imageName}}" alt="image" />
+					    		
+					    				
+					    </div>
+					    <input type="hidden" name="imgName"  th:value="${product.imageName}">
+					    	<div class="form-group">
+					    	
+					    	<div class = "footer-body text-center">
+					    	<button type="submit" class = "btn btn-primary">Save</button>
+					    	
+					    	</div>
+					    </form>
+					 </div>
+				
+				</div>
+			</div>
+			
+		</div>
+		<div th:replace="fragment :: html_footer"></div>
+		
+<script>
+	/* $(document).ready(function(){
+		
+	}); */
+	function showImageThumbnail(fileInput){
+		if(fileInput.files && fileInput.files[0]){
+			var reader = new FileReader();
+			
+			reader.onload = function(e){
+				$('thumbnail').attr('src', e.target.result);
+			}
+		reader.readAsDataURL(fileInput.files[0]);
+		}
+	}
+	$('#fileImage').change(function(){
+		showImageThumbnail(this);
+	});
+	
+	$('.file-input').on("change", function(){
+		var fileName = $(this).val().split("\\").pop();
+		$(this).siblings(".file-label").addClass("selected").html(fileName);
+	});
+		
+
+</script>
+		
+		
+</body>
+</html>

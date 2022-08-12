@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeLeaf.org">
+<head th:replace="fragment :: html_head">
+</head>
+<body>
+<div th:replace="fragment :: html_navbar"></div>
+	<div class="container text-center">
+		<h1>Categories List</h1>
+		<div>
+			<a class = "btn btn-primary" th:href="@{/categories/new}">Add New Category</a>
+		</div>
+		<br>
+		<div>
+			<table class="table table-striped">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col"> Name</th>
+			     <th scope="col"> Action</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each ="category: ${listCategories}" >
+			      	<td th:text = "${category.id}"/>
+			      	<td th:text = "${category.name}"/>
+
+			      	<td>
+			      		<a 
+			      			class = "btn btn-primary" th:href="@{'/categories/edit/' + ${category.id}}">Update</a>
+			      		<a 
+			      			class = "btn btn-danger" th:href="@{'/categories/delete/' + ${category.id}}">Delete</a>
+			      	</td>
+			    </tr> 
+			   
+			  </tbody>
+		</table>
+		
+		</div>
+	
+	</div>
+	<div th:replace="fragment :: html_footer"></div>
+</body>
+</html>
